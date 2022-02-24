@@ -9,10 +9,11 @@ token = sys.argv[1]
 try:
 	data = {
 		'name':'TEST STORY',
-		'project_id':299,
+		'project_id': 13,
 		'owner_ids':[]
 	}
-	r = requests.post('https://api.clubhouse.io/api/v2/stories', params={'token':token}, data=data)
-	print r.text()
+	print(token)
+	r = requests.post('https://api.clubhouse.io/api/v3/stories', params={'token':token}, data=data)
+	print(r)
 except RequestException as err:
-	print err
+	print(err)

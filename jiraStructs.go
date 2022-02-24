@@ -156,6 +156,9 @@ func (item *JiraItem) CreateStory(userMaps []userMap) ClubHouseCreateStory {
 	// Adding special label that indicates that it was imported from JIRA
 	labels = append(labels, ClubHouseCreateLabel{Name: "jira"})
 
+	// Add a label indicating the Jira ticket number to help find the associated PR in Github
+	labels = append(labels, ClubHouseCreateLabel{Name: item.Key})
+
 	// Overwrite supplied Project ID
 	projectID := MapProject(userMaps, item.Assignee.Username)
 	// projectID, ownerID := GetUserInfo(userMaps, item.Assignee.Username)
@@ -176,37 +179,37 @@ func (item *JiraItem) CreateStory(userMaps []userMap) ClubHouseCreateStory {
 	// cases break automatically, no fallthrough by default
 	var state int64 = 500000014
 	switch item.Status {
-	    case "Ready for Test":
+	    case "Open":
 	        // ready for test
-	        state = 500000010
-	    case "Task In Progress":
+	        state = 500000007
+	    case "In Progress":
 	        // in progress
-	        state = 500000015
-	    case "Selected for Review/Development":
+	        state = 500000006
+	    case "Code Review":
 	    	// selected
-	    	state = 500000011
-	    case "Task backlog":
+	    	state = 500000010
+	    case "Ready for QA":
 	    	// backlog
-	        state = 500000014
-	    case "Done":
+	        state = 500000027
+	    case "In QA":
 	    	// Completed
-	    	state = 500000012
-	    case "Verified":
+	    	state = 500000028
+	    case "Accepted":
 	    	// Completed
-	    	state = 500000012
+	    	state = 500000011
 	    case "Closed":
-	    	state = 500000021
+	    	state = 500000011
 	    default:
 	    	// backlog
-	        state = 500000014
+	        state = 500000008
     }
 
     requestor := MapUser(userMaps, item.Reporter.Username)
     // _, requestor := GetUserInfo(userMaps, item.Reporter.Username)
     if requestor == "" {
     	// map to me if requestor not in Clubhouse
-    	requestor = MapUser(userMaps, "ted")
-    	// _, requestor = GetUserInfo(userMaps, "ted")
+    	requestor = MapUser(userMaps, "matt.messinger")
+    	// _, requestor = GetUserInfo(userMaps, "matt.messinger")
     }
 
     fmt.Printf("%s: JIRA Assignee: %s | Project: %d | Status: %s\n\n", item.Key, item.Assignee.Username, projectID, item.Status)
@@ -263,7 +266,7 @@ func (comment *JiraComment) CreateComment(userMaps []userMap) ClubHouseCreateCom
 	author := MapUser(userMaps, comment.Author)
 	if author == "" {
 		// since we MUST have a comment author, make it me and prepend the actual username to the comment body
-		author = MapUser(userMaps, "ted")
+		author = MapUser(userMaps, "matt.messinger")
 		commentText = comment.Author + ": " + commentText
 	}
 
@@ -287,7 +290,7 @@ func (item *JiraItem) GetEpicLink() string {
 // GetEstimate returns the estimate of a Jira Item.
 func (item *JiraItem) GetEstimate() int64 {
 	for _, cf := range item.CustomFields {
-		if cf.FieldName == "Story point estimate" {
+		if cf.FieldName == "Story Points" {
 			if i, err := strconv.ParseFloat(cf.FieldVales[0], 64); err == nil {
 				return int64(i)
 			}

@@ -24,21 +24,21 @@ func main() {
 	app.Name = "Jira to Clubhouse"
 	app.Usage = "Jira To Clubhouse"
 	app.Version = "0.0.5"
-	app.Commands = []cli.Command{
+	app.Commands = []*cli.Command{
 		{
 			Name:    "export",
 			Aliases: []string{"e"},
 			Usage:   "Export Jira XMl into a clubhouse-esque json file",
 			Flags: []cli.Flag{
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "in, i",
 					Usage: "The Jira XML file you want to read in.",
 				},
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name: "map, m",
 					Usage: "The JSON file containing user mappings",
 				},
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "out, o",
 					Usage: "The destination file",
 				},
@@ -81,19 +81,19 @@ func main() {
 			Aliases: []string{"i"},
 			Usage:   "Import Jira XMl into Clubhouse",
 			Flags: []cli.Flag{
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "in, i",
 					Usage: "The Jira XML file you want to read in.",
 				},
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name: "map, m",
 					Usage: "The JSON file containing user mappings",
 				},
-				cli.StringFlag{
+				&cli.StringFlag{
 					Name:  "token, t",
 					Usage: "Your API token",
 				},
-				cli.BoolFlag{
+				&cli.BoolFlag{
 					Name:  "test, T",
 					Hidden: false,
 					Usage: "Test mode: Does not execute remote requests",
