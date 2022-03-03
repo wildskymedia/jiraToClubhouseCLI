@@ -26,5 +26,7 @@ _testmain.go
 *.xml
 *.json
 notes.txt
-venv
+*venv
 SearchRequest.xml*
+go.mod
+go.sum

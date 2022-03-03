@@ -150,7 +150,7 @@ func (item *JiraItem) CreateStory(userMaps []userMap) ClubHouseCreateStory {
 	lastSprint := item.GetLastSprint()
 
 	if lastSprint != "" {
-		labels = append(labels, ClubHouseCreateLabel{Name: strings.ToLower(lastSprint)})
+		labels = append(labels, ClubHouseCreateLabel{Name: lastSprint})
 	}
 
 	// Adding special label that indicates that it was imported from JIRA
@@ -160,7 +160,7 @@ func (item *JiraItem) CreateStory(userMaps []userMap) ClubHouseCreateStory {
 	labels = append(labels, ClubHouseCreateLabel{Name: item.Key})
 
 	// Overwrite supplied Project ID
-	projectID := MapProject(userMaps, item.Assignee.Username)
+	// projectID := MapProject(userMaps, item.Assignee.Username)
 	// projectID, ownerID := GetUserInfo(userMaps, item.Assignee.Username)
 
 	// Map JIRA assignee to Clubhouse owner(s)
@@ -180,28 +180,31 @@ func (item *JiraItem) CreateStory(userMaps []userMap) ClubHouseCreateStory {
 	var state int64 = 500000014
 	switch item.Status {
 	    case "Open":
-	        // ready for test
-	        state = 500000007
+				// backlog
+				state = 500000008
 	    case "In Progress":
-	        // in progress
-	        state = 500000006
+				// in development
+				state = 500000006
+			case "Blocked":
+				// blocked
+				state = 500000030
 	    case "Code Review":
 	    	// selected
 	    	state = 500000010
 	    case "Ready for QA":
-	    	// backlog
-	        state = 500000027
+	    	// ready for qa
+				state = 500000027
 	    case "In QA":
-	    	// Completed
+	    	// in qa
 	    	state = 500000028
 	    case "Accepted":
-	    	// Completed
-	    	state = 500000011
+	    	// qa passed
+	    	state = 500000031
 	    case "Closed":
 	    	state = 500000011
 	    default:
 	    	// backlog
-	        state = 500000008
+				state = 500000008
     }
 
     requestor := MapUser(userMaps, item.Reporter.Username)
@@ -212,7 +215,7 @@ func (item *JiraItem) CreateStory(userMaps []userMap) ClubHouseCreateStory {
     	// _, requestor = GetUserInfo(userMaps, "matt.messinger")
     }
 
-    fmt.Printf("%s: JIRA Assignee: %s | Project: %d | Status: %s\n\n", item.Key, item.Assignee.Username, projectID, item.Status)
+    fmt.Printf("%s: JIRA Assignee: %s | Project: %d | Status: %s\n\n", item.Key, item.Assignee.Username, item.Status)
 
 	return ClubHouseCreateStory{
 		Comments:    	comments,
@@ -223,7 +226,7 @@ func (item *JiraItem) CreateStory(userMaps []userMap) ClubHouseCreateStory {
 		Description: 	sanitize.HTML(item.Description),
 		Labels:      	labels,
 		Name:        	sanitize.HTML(item.Summary),
-		ProjectID:   	int64(projectID),
+		// ProjectID:   	int64(projectID),
 		StoryType:   	item.GetClubhouseType(),
 		key:         	item.Key,
 		epicLink:    	item.GetEpicLink(),
@@ -245,16 +248,16 @@ func MapUser(userMaps []userMap, jiraUserName string) string {
 	return chUserID
 }
 
-func MapProject(userMaps []userMap, jiraUserName string) int {
-	projectID, _ := GetUserInfo(userMaps, jiraUserName)
+// func MapProject(userMaps []userMap, jiraUserName string) int {
+// 	projectID, _ := GetUserInfo(userMaps, jiraUserName)
 
-	if projectID == 0 {
-		fmt.Println("[MapProject] JIRA user not found: ", jiraUserName)
-    	return 299
-	}
+// 	if projectID == 0 {
+// 		fmt.Println("[MapProject] JIRA user not found: ", jiraUserName)
+//     	return 299
+// 	}
 
-	return projectID
-}
+// 	return projectID
+// }
 
 
 // CreateComment takes the JiraItem's comment data and returns a ClubHouseCreateComment

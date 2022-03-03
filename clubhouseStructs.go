@@ -34,7 +34,7 @@ type ClubHouseCreateStory struct {
 	EpicID      	int64                    `json:"epic_id,omitempty"`
 	Labels      	[]ClubHouseCreateLabel   `json:"labels"`
 	Name        	string                   `json:"name"`
-	ProjectID   	int64                    `json:"project_id"`
+	// ProjectID   	int64                    `json:"project_id"`
 	Tasks       	[]ClubHouseCreateTask    `json:"tasks"`
 	StoryType   	string                   `json:"story_type"`
 	epicLink    	string
