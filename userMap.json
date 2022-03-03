@@ -1,0 +1,46 @@
+[
+  {
+    "jiraUsername": "sutthichit",
+    "chID": "62133a80-82d1-4aae-8830-d69209b60984"
+  },
+  {
+    "jiraUsername": "wannita.supanich",
+    "chID": "62133a80-82d1-4aae-8830-d69209b60984"
+  },
+  {
+    "jiraUsername": "ben.mekpongsatorn",
+    "chID": "620f12d2-8314-4025-8922-d6fa96c2cd38"
+  },
+  {
+    "jiraUsername": "pattama.orkolkij",
+    "chID": "621ef569-dc0a-4a73-9bc6-840487994845"
+  },
+  {
+    "jiraUsername": "mmessinger",
+    "chID": "5fc6d60e-eb51-40ae-914f-4f1f850594fa"
+  },
+  {
+    "jiraUsername": "matt.messinger",
+    "chID": "5fc6d60e-eb51-40ae-914f-4f1f850594fa"
+  },
+  {
+    "jiraUsername": "pongsakorn.ruadsong",
+    "chID": "621ef56a-babe-4529-85b0-cbea4608d557"
+  },
+  {
+    "jiraUsername": "jparsons",
+    "chID": "6113040a-78c1-4362-8d2a-45b8e8010ebf"
+  },
+  {
+    "jiraUsername": "jeff.parsons",
+    "chID": "6113040a-78c1-4362-8d2a-45b8e8010ebf"
+  },
+  {
+    "jiraUsername": "thanchanok.phrompalit",
+    "chID": "621ef56a-0604-4105-918a-f2e86bfe04cf"
+  },
+  {
+    "jiraUsername": "krittawit.sitthichaiwatthana",
+    "chID": "621ef56a-d637-4c64-8b9b-88fd91eb0e06"
+  }
+]
