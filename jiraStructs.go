@@ -247,6 +247,7 @@ func (item *JiraItem) CreateStory(userMaps []userMap) ClubHouseCreateStory {
 		OwnerIDs:		owners,
 		RequestedBy:	requestor,
 		Estimate: 		item.GetEstimate(),
+		GroupID: 			"62132e09-7216-4f8c-860d-9907f4a243bc", // Hardcoding Engineering team ID
 	}
 }
 
