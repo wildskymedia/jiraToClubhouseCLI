@@ -3,9 +3,9 @@ package main
 import (
 	"encoding/xml"
 	"fmt"
+	"strconv"
 	"strings"
 	"time"
-	"strconv"
 
 	"github.com/kennygrant/sanitize"
 )
@@ -51,7 +51,7 @@ type JiraItem struct {
 //JiraCustomField is the information for custom fields. Right now the only one used is the Epic Link
 type JiraCustomField struct {
 	FieldName  string   `xml:"customfieldname"`
-	FieldVales []string `xml:"customfieldvalues>customfieldvalue"`
+	FieldValues []string `xml:"customfieldvalues>customfieldvalue"`
 }
 
 // JiraComment is a comment from the imported XML
@@ -284,7 +284,7 @@ func (comment *JiraComment) CreateComment(userMaps []userMap) ClubHouseCreateCom
 func (item *JiraItem) GetEpicLink() string {
 	for _, cf := range item.CustomFields {
 		if cf.FieldName == "Epic Link" {
-			return cf.FieldVales[0]
+			return cf.FieldValues[0]
 		}
 	}
 	return ""
@@ -294,7 +294,7 @@ func (item *JiraItem) GetEpicLink() string {
 func (item *JiraItem) GetEstimate() int64 {
 	for _, cf := range item.CustomFields {
 		if cf.FieldName == "Story Points" {
-			if i, err := strconv.ParseFloat(cf.FieldVales[0], 64); err == nil {
+			if i, err := strconv.ParseFloat(cf.FieldValues[0], 64); err == nil {
 				return int64(i)
 			}
 			
@@ -306,8 +306,8 @@ func (item *JiraItem) GetEstimate() int64 {
 // GetLastSprint returns the latest sprint a Jira Item was in.
 func (item *JiraItem) GetLastSprint() string {
 	for _, cf := range item.CustomFields {
-		if cf.FieldName == "Sprint" && len(cf.FieldVales) > 0 {
-			return cf.FieldVales[len(cf.FieldVales)-1]
+		if cf.FieldName == "Sprint" && len(cf.FieldValues) > 0 {
+			return cf.FieldValues[len(cf.FieldValues)-1]
 		}
 	}
 	return ""
