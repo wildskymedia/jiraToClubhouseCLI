@@ -228,6 +228,12 @@ func (item *JiraItem) CreateStory(userMaps []userMap) ClubHouseCreateStory {
     	// _, requestor = GetUserInfo(userMaps, "matt.messinger")
     }
 
+		// Set Jira external link
+		jiraLink := "https://jira.yk.wildskymedia.com/browse/"
+		jiraLink += item.Key
+		var jiraLinkArray []string
+		jiraLinkArray = append(jiraLinkArray, jiraLink)
+
     fmt.Printf("%s: JIRA Assignee: %s | Project: %d | Status: %s\n\n", item.Key, item.Assignee.Username, item.Status)
 
 	return ClubHouseCreateStory{
@@ -248,6 +254,8 @@ func (item *JiraItem) CreateStory(userMaps []userMap) ClubHouseCreateStory {
 		RequestedBy:	requestor,
 		Estimate: 		item.GetEstimate(),
 		GroupID: 			"62132e09-7216-4f8c-860d-9907f4a243bc", // Hardcoding Engineering team ID
+		ExternalID:		item.Key, // Shortcut allows setting an external id 
+		ExternalLinks: jiraLinkArray,
 	}
 }
 
