@@ -153,12 +153,25 @@ func (item *JiraItem) CreateStory(userMaps []userMap) ClubHouseCreateStory {
 		labels = append(labels, ClubHouseCreateLabel{Name: lastSprint})
 	}
 
-	// Adding special label that indicates that it was imported from JIRA
-	labels = append(labels, ClubHouseCreateLabel{Name: "jira"})
+	// Option to create a label for every sprint the jira item was in
+	// for _, cf := range item.CustomFields {
+	// 	if cf.FieldName == "Sprint" && len(cf.FieldValues) > 0 {
+	// 		for _, sprints := range cf.FieldValues {
+	// 			labels = append(labels, ClubHouseCreateLabel{Name: sprints})
+	// 		}
+	// 	}
+	// }
+
+	// Adding special label that indicates that it was imported from JIRA and also 
+	// appends project code for filtering purposes 
+	jiraProjectLabel := "jira-"
+	jiraProjectLabel += strings.Trim(item.Key,"-0123456789")
+	labels = append(labels, ClubHouseCreateLabel{Name: jiraProjectLabel})
 
 	// Add a label indicating the Jira ticket number to help find the associated PR in Github
 	labels = append(labels, ClubHouseCreateLabel{Name: item.Key})
 
+	// *** Commented out because not assigning tickets to a project in shortcut ***
 	// Overwrite supplied Project ID
 	// projectID := MapProject(userMaps, item.Assignee.Username)
 	// projectID, ownerID := GetUserInfo(userMaps, item.Assignee.Username)
@@ -248,6 +261,7 @@ func MapUser(userMaps []userMap, jiraUserName string) string {
 	return chUserID
 }
 
+// *** Commented out because not assigning tickets to a project in shortcut ***
 // func MapProject(userMaps []userMap, jiraUserName string) int {
 // 	projectID, _ := GetUserInfo(userMaps, jiraUserName)
 
