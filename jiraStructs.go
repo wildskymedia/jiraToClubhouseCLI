@@ -332,8 +332,11 @@ func (item *JiraItem) GetLastSprint() string {
 func (item *JiraItem) GetClubhouseType() string {
 	if item.Type == "Bug" {
 		return "bug"
+	} else if item.Type == "Task" {
+		return "chore"
+	} else {
+		return "feature"
 	}
-	return "feature"
 }
 
 // ParseJiraTimeStamp parses the format in the XML using Go's magical timestamp.
