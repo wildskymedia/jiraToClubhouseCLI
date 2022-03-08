@@ -42,6 +42,7 @@ type JiraItem struct {
 
 	Comments     []JiraComment     `xml:"comments>comment"`
 	CustomFields []JiraCustomField `xml:"customfields>customfield"`
+	Component    []string          `xml:"component"`
 
 	epicLink string
 	UpdatedAtString string   		`xml:"updated"`
@@ -161,6 +162,11 @@ func (item *JiraItem) CreateStory(userMaps []userMap) ClubHouseCreateStory {
 	// 		}
 	// 	}
 	// }
+
+	// Adding a label for components added to the jira tickets
+	for _, component := range item.Component {
+		labels = append(labels, ClubHouseCreateLabel{Name: strings.ToLower(component)})
+	}
 
 	// Adding special label that indicates that it was imported from JIRA and also 
 	// appends project code for filtering purposes 
