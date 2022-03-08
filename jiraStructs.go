@@ -165,7 +165,7 @@ func (item *JiraItem) CreateStory(userMaps []userMap) ClubHouseCreateStory {
 
 	// Adding a label for components added to the jira tickets
 	for _, component := range item.Component {
-		labels = append(labels, ClubHouseCreateLabel{Name: strings.ToLower(component)})
+		labels = append(labels, ClubHouseCreateLabel{Name: component})
 	}
 
 	// Adding special label that indicates that it was imported from JIRA and also 
